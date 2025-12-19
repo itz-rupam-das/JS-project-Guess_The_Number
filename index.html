@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Guess-The-number</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- first header secton -->
+      <div class="header">
+        <h1>Guess-The-Number</h1>
+        <p>
+          Here you have to guess a random number between 1 to 100 and you will
+          get only 10 chances for the right guess
+        </p>
+        <label class="input-label">Enter the number</label
+        ><input type="text" id="input" />
+        <button type="submit">Guess</button>
+      </div>
+
+      <!-- 2nd result section -->
+      <div class="result">
+        <div class="output">Let's Begin Guessing</div>
+        <h3>The guessed numbers are:</h3>
+        <div class="guess-num">0</div>
+        <h3>No. of Guess left: </h3>
+        <div class="guess-count">10</div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
