@@ -5,7 +5,7 @@
   font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
 }
 
-.border{
+.border {
   border: 3px solid red;
 }
 
@@ -37,7 +37,7 @@ body {
   flex-direction: column;
 }
 
-.header{
+.header {
   width: 100%;
   height: 60%;
   display: flex;
@@ -47,25 +47,25 @@ body {
   align-items: center;
   padding: 10px;
 
-  h1{
+  h1 {
     color: aquamarine;
     font-size: 2.5rem;
   }
 
-  p{
+  p {
     text-align: center;
     margin-block: 10px;
     color: #ffc123;
   }
 }
 
-.input-label{
+.input-label {
   margin-bottom: 10px;
   font-size: 1.5rem;
   font-weight: 600;
 }
 
-input{
+input {
   border: 2px solid rgb(99, 99, 99);
   border-radius: 5px;
   height: 2rem;
@@ -77,26 +77,26 @@ input{
   font-size: 20px;
 }
 
-button{
+button {
   width: 6rem;
   height: 2rem;
   border: none;
   border-radius: 10px;
   font-size: 20px;
   background-color: #e25a00;
-  color: antiquewhite;
+  color: rgb(255, 255, 255);
   cursor: pointer;
   margin-top: 5px;
 
-  &:hover{
+  &:hover {
     background-color: #b04700;
   }
-  &:active{
+  &:active {
     background-color: #e25a00;
   }
 }
 
-.result{
+.result {
   width: 100%;
   height: 40%;
   padding: 10px;
@@ -105,13 +105,13 @@ button{
   flex-direction: column;
 }
 
-.output{
+.output {
   margin-top: -10px;
   margin-inline: auto;
   font-size: 30px;
   margin-bottom: 10px;
 }
 
-h3{
+h3 {
   margin-block: 5px;
 }
