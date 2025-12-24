@@ -1,100 +1,104 @@
-// --- Game State Variables ---
-let randomNumber = Math.floor(Math.random() * 100) + 1;
-let previousGuesses = [];
-let numGuesses = 0;
-let isActive = true;
+const CONFIG = {
+  MIN: 1,
+  MAX: 100,
+  MAX_GUESSES: 10,
+};
 
-// --- UI Element Selectors ---
-const userInput = document.querySelector("#input");
-const guessBtn = document.querySelector("#guess-btn");
-const output = document.querySelector(".output");
-const guessNumDisplay = document.querySelector(".guess-num");
-const guessCountDisplay = document.querySelector(".guess-count");
-const newGameBtn = document.querySelector("#new-game-btn");
+const ui = {
+  input: document.getElementById("guess-input"),
+  button: document.getElementById("guess-btn"),
+  output: document.querySelector(".output"),
+  guessesLeft: document.getElementById("guesses-left"),
+  previous: document.getElementById("previous-guesses"),
+  newGameBtn: document.getElementById("new-game-btn"),
+};
 
-// --- Event Listeners ---
-guessBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (!isActive) return;
+const game = {
+  secret: null,
+  guesses: [],
+  active: true,
 
-    const guess = parseInt(userInput.value);
-    validateGuess(guess);
+  init() {
+    this.secret = this.randomNumber();
+    this.guesses = [];
+    this.active = true;
+    this.render();
+  },
+
+  randomNumber() {
+    return Math.floor(Math.random() * CONFIG.MAX) + CONFIG.MIN;
+  },
+
+  submitGuess(value) {
+    if (!this.active) return;
+
+    if (isNaN(value) || value < CONFIG.MIN || value > CONFIG.MAX) {
+      return this.message("Enter a valid number", "lose");
+    }
+
+    if (this.guesses.includes(value)) {
+      return this.message("Already guessed that", "lose");
+    }
+
+    this.guesses.push(value);
+
+    if (value === this.secret) {
+      this.end(true);
+    } else if (this.guesses.length >= CONFIG.MAX_GUESSES) {
+      this.end(false);
+    } else {
+      this.message(
+        value < this.secret ? "Too low!" : "Too high!",
+        "lose"
+      );
+    }
+
+    this.render();
+  },
+
+  end(win) {
+    this.active = false;
+    this.message(
+      win ? "You guessed it!" : `Game Over. Number was ${this.secret}`,
+      win ? "win" : "lose"
+    );
+    ui.newGameBtn.classList.remove("hidden");
+    ui.button.classList.add("hidden");
+    ui.input.disabled = true;
+  },
+
+  message(text, type) {
+    ui.output.textContent = text;
+    ui.output.className = `output ${type}`;
+  },
+
+  render() {
+    ui.guessesLeft.textContent =
+      CONFIG.MAX_GUESSES - this.guesses.length;
+    ui.previous.textContent =
+      this.guesses.length ? this.guesses.join(", ") : "None";
+    ui.input.value = "";
+    ui.input.focus();
+  },
+};
+
+// Events
+ui.button.addEventListener("click", () => {
+  game.submitGuess(Number(ui.input.value));
 });
 
-// Allow "Enter" key to submit
-userInput.addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-        guessBtn.click();
-    }
+ui.input.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") ui.button.click();
 });
 
-newGameBtn.addEventListener("click", resetGame);
+ui.newGameBtn.addEventListener("click", () => {
+  ui.newGameBtn.classList.add("hidden");
+  ui.button.classList.remove("hidden");
+  ui.input.disabled = false;
+  ui.output.className = "output";
+  ui.output.textContent = "Ready to play?";
+  game.init();
+});
 
-// --- Core Logic Functions ---
-function validateGuess(guess) {
-    if (isNaN(guess) || guess < 1 || guess > 100) {
-        displayMessage("❌ Enter a number between 1 and 100");
-    } else if (previousGuesses.includes(guess)) {
-        displayMessage("⚠️ You already guessed that!");
-    } else {
-        previousGuesses.push(guess);
-        numGuesses++;
-        updateUI(guess);
-        checkGuess(guess);
-    }
-}
-
-function checkGuess(guess) {
-    if (guess === randomNumber) {
-        displayMessage("🎉 Correct! You're a genius.");
-        endGame(true);
-    } else if (numGuesses === 10) {
-        displayMessage(`💀 Game Over. It was ${randomNumber}`);
-        endGame(false);
-    } else {
-        displayMessage(guess < randomNumber ? "Too Low! Try higher." : "Too High! Try lower.");
-    }
-}
-
-function updateUI(guess) {
-    userInput.value = "";
-    userInput.focus();
-    guessNumDisplay.innerHTML = previousGuesses.join(", ");
-    guessCountDisplay.innerHTML = 10 - numGuesses;
-}
-
-function displayMessage(message) {
-    output.innerHTML = message;
-}
-
-function endGame(isWin) {
-    isActive = false;
-    userInput.disabled = true;
-    guessBtn.classList.add("hidden");
-    newGameBtn.classList.remove("hidden");
-    
-    // Change color based on outcome
-    output.style.color = isWin ? "#10b981" : "#ef4444";
-}
-
-function resetGame() {
-    // Reset Variables
-    randomNumber = Math.floor(Math.random() * 100) + 1;
-    previousGuesses = [];
-    numGuesses = 0;
-    isActive = true;
-
-    // Reset UI
-    displayMessage("Ready to play?");
-    output.style.color = ""; // Reset to CSS default
-    guessNumDisplay.innerHTML = "None";
-    guessCountDisplay.innerHTML = "10";
-    userInput.disabled = false;
-    userInput.value = "";
-    
-    // Toggle Buttons
-    guessBtn.classList.remove("hidden");
-    newGameBtn.classList.add("hidden");
-    
-    userInput.focus();
-}
+// Start game
+game.init();
