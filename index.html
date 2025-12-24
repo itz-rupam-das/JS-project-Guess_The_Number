@@ -1,40 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Premium Guessing Game</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guess the Number</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="game-card">
-        <header class="game-header">
-            <h1>Guess the Number</h1>
-            <p>We've picked a number between <strong>1 and 100</strong>. You have <strong>10 attempts</strong> to find it.</p>
-        </header>
 
-        <section class="input-section">
-            <div class="input-group">
-                <input type="number" id="input" min="1" max="100" placeholder="??" autocomplete="off" />
-                <button id="guess-btn">Submit Guess</button>
-            </div>
-            <div class="output">Ready to play?</div>
-        </section>
+  <main class="game-card glass">
+    <header class="game-header">
+      <h1>Guess the Number</h1>
+      <p>
+        Guess a number between <strong>1 and 100</strong>.  
+        You have <strong>10 attempts</strong>.
+      </p>
+    </header>
 
-        <footer class="stats-section">
-            <div class="stat-box">
-                <span>Guesses Left</span>
-                <div class="guess-count">10</div>
-            </div>
-            <div class="stat-box">
-                <span>Previous Guesses</span>
-                <div class="guess-num">None</div>
-            </div>
-        </footer>
-        
-        <button id="new-game-btn" class="hidden">Play Again</button>
-    </div>
+    <section class="input-section">
+      <label for="guess-input" class="sr-only">Enter your guess</label>
+      <div class="input-group">
+        <input
+          type="number"
+          id="guess-input"
+          min="1"
+          max="100"
+          placeholder="Enter number"
+          autocomplete="off"
+        />
+        <button id="guess-btn">Submit</button>
+      </div>
+      <div class="output">Ready to play?</div>
+    </section>
 
-    <script src="script.js"></script>
+    <section class="stats-section">
+      <div class="stat-box">
+        <span>Guesses Left</span>
+        <div id="guesses-left">10</div>
+      </div>
+      <div class="stat-box">
+        <span>Previous Guesses</span>
+        <div id="previous-guesses">None</div>
+      </div>
+    </section>
+
+    <button id="new-game-btn" class="hidden">Play Again</button>
+  </main>
+
+  <script src="script.js"></script>
 </body>
 </html>
